@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
+#include <cstddef>
 
 class ScreenManager {                      // Classe que gerencia a tela
 public:
@@ -30,8 +31,10 @@ public:
 };
 
 class Display {                          // Classe que gerencia o que vai ser Mostrado na tela
+private:
+    Student * obj;
 public:
-    void displayStudent(Student & obj);  // Mostra as informações do aluno
+    void displayStudent(Student * obj);  // Mostra as informações do aluno
 };
 
 #endif

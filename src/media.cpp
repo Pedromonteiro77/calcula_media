@@ -108,12 +108,12 @@ std::vector<double> Student::getGrades() const {
 }
 
 // Mostra os dados do aluno na tela
-void Display::displayStudent(Student & obj) {
-    obj.askStudentName();
-    obj.calculateGrades();
-    obj.clearScreen();
-    std::cout << obj.getStudentName() << '\n';
-    for(auto i : obj.getGrades()) {
+void Display::displayStudent(Student * obj) {
+    obj->askStudentName();
+    obj->calculateGrades();
+    obj->clearScreen();
+    std::cout << obj->getStudentName() << '\n';
+    for(auto i : obj->getGrades()) {
         std::cout << i << '\n';
     }
     
