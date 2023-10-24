@@ -1,12 +1,24 @@
 #include <iostream>
 #include "../header/media.h"
 
-Student::Student() : grades_({}), studentName_(" ") {}
+// Construtor da classe ScreenManager
+ScreenManager::ScreenManager() {}
+
+// Destrutor da classe ScreenManager
+ScreenManager::~ScreenManager() {}
 
 // Limpa a tela 
 void ScreenManager::clearScreen() const {
     std::system("cls");
 }
+
+/////////////////////////////////////////////
+
+// Construtor da classe Student
+Student::Student() : grades_({}), studentName_(" ") {}
+
+// Destrutor da classe Student
+Student::~Student() {}
 
 // Limpa a tela herdada da classe ScreenManager
 void Student::clearScreen() const {
@@ -80,13 +92,44 @@ void Student::askStudentName() {
     }
 }
 
+// Calcula as notas do aluno
 void Student::calculateGrades() {
     std::size_t subjects;
-    int indice = 0;
+    char opc;
 
     while(true) {
+        int indice = 0;
+        std::string input;
+
         std::cout << "Quantas materias sao: ";
-        std::cin >> subjects;
+        std::cin >> input;
+
+        bool isDigit = true;
+        for(auto i : input) {
+            if(!isdigit(i)) {
+                isDigit = false;
+                break;
+            }
+        }
+
+        if(!isDigit) {
+            std::cout << "INVALIDO! Nao digite letras ou simbolos" << '\n';
+            std::cout << "Aperte Enter para continuar...";
+            std::cin.get();
+            std::cin.ignore();
+            input.clear();
+            continue;
+        }
+
+        subjects = std::stoul(input);
+
+        if(subjects == 0 || subjects > 5) {
+            std::cout << "INVALIDO! o numero de materias não pode ser 0 ou maior que 5!" << '\n';
+            std::cout << "Aperte Enter para continuar...";
+            std::cin.get();
+            std::cin.ignore();
+            continue;
+        }
 
         for(auto i = 0; i < subjects; i++) {
             std::cout << "Digite a " << ++indice << " nota: " << '\n';
@@ -94,7 +137,23 @@ void Student::calculateGrades() {
             grades_.push_back(grade_);
         }
 
-        break;
+        std::cout << "As notas do aluno sao: " << '\n';
+        for(auto i : grades_) {
+            std::cout << i << '\n';
+        }
+
+        std::cout << "Voce confirma? sim(s)/nao(n): ";
+        std::cin >> opc;
+        std::cin.ignore();
+
+        if(opc == 's' || opc == 'S') {
+            break;
+        }
+
+        else {
+            grades_.clear();
+            continue;
+        }
     }
 }
 
@@ -107,14 +166,21 @@ std::vector<double> Student::getGrades() const {
     return grades_;
 }
 
+////////////////////////////////////////////////////////
+
+// Construtor da classe Display 
+Display::Display(std::unique_ptr<Student> obj) : obj_(std::move(obj)) {}
+
+// Destrutor da classe Display
+Display::~Display() {}
+
 // Mostra os dados do aluno na tela
-void Display::displayStudent(Student * obj) {
-    obj->askStudentName();
-    obj->calculateGrades();
-    obj->clearScreen();
-    std::cout << obj->getStudentName() << '\n';
-    for(auto i : obj->getGrades()) {
+void Display::displayStudent() {
+    obj_->askStudentName();
+    obj_->calculateGrades();
+    obj_->clearScreen();
+    std::cout << obj_->getStudentName() << '\n';
+    for(auto i : obj_->getGrades()) {
         std::cout << i << '\n';
-    }
-    
+    }  
 }

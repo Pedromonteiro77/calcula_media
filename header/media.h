@@ -7,9 +7,13 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstddef>
+#include <memory>
+#include <utility>
 
 class ScreenManager {                      // Classe que gerencia a tela
 public:
+    ScreenManager();
+    ~ScreenManager();
     virtual void clearScreen() const;      // Função que limpa a tela
 };
 
@@ -22,6 +26,7 @@ private:
 
 public:
     Student();                            // Construtor da classe Student
+    ~Student();
     void clearScreen() const override;    // Função que limpa a tela. herdada da classe ScreenManager
     void askStudentName();                // Função que pergunta o nome do aluno
     void calculateGrades();               // Função que calcula as notas do aluno
@@ -32,9 +37,12 @@ public:
 
 class Display {                          // Classe que gerencia o que vai ser Mostrado na tela
 private:
-    Student * obj;
+    std::unique_ptr<Student> obj_;
+
 public:
-    void displayStudent(Student * obj);  // Mostra as informações do aluno
+    Display(std::unique_ptr<Student> obj);
+    ~Display();
+    void displayStudent();  // Mostra as informações do aluno
 };
 
 #endif
