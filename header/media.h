@@ -9,40 +9,41 @@
 #include <cstddef>
 #include <memory>
 #include <utility>
+#include <iomanip>
 
-class ScreenManager {                      // Classe que gerencia a tela
+class ScreenManager {                   
 public:
     ScreenManager();
     ~ScreenManager();
-    virtual void clearScreen() const;      // Função que limpa a tela
+    virtual void clearScreen() const; 
 };
 
-class Student : public ScreenManager {     // Classe que Faz o gerenciamento dos dados do aluno 
+class Student : public ScreenManager {      
 private:
-    std::vector<double> grades_;           // Vector que guarda as notas do aluno
-    std::string studentName_;              // Nome do aluno
-    double grade_;                         // Nota do aluno
-    double average_;                       // Media do aluno
+    std::vector<float> grades_;           
+    std::string studentName_; 
+    float grade_;            
+    float average_;           
 
 public:
-    Student();                            // Construtor da classe Student
+    Student();      
     ~Student();
-    void clearScreen() const override;    // Função que limpa a tela. herdada da classe ScreenManager
-    void askStudentName();                // Função que pergunta o nome do aluno
-    void calculateGrades();               // Função que calcula as notas do aluno
+    void clearScreen() const override;  
+    void askStudentName(); 
+    void calculateGrades();               
 
-    std::string getStudentName() const;    // Obtem o nome do aluno 
-    std::vector<double> getGrades() const; // Obtem as notas do aluno
+    std::string getStudentName() const;
+    float getAverage() const;
 };
 
-class Display {                          // Classe que gerencia o que vai ser Mostrado na tela
+class Display { 
 private:
     std::unique_ptr<Student> obj_;
 
 public:
     Display(std::unique_ptr<Student> obj);
     ~Display();
-    void displayStudent();  // Mostra as informações do aluno
+    void displayStudent();
 };
 
 #endif
