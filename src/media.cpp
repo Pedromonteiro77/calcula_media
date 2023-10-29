@@ -9,7 +9,7 @@ void ScreenManager::clearScreen() const {
     std::system("cls");
 }
 
-Student::Student() : grades_({}), studentName_(" ") {}
+Student::Student() : grades_({}), studentName_(" "), grade_(0.0), average_(0.0) {}
 
 Student::~Student() {}
 
